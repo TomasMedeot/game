@@ -1,9 +1,11 @@
+from ctypes import Array
 import pygame
-from object import *
+from objects_elements import *
 import os
+from time_elements import deltatime
 
 #Load texture
-def texture(name,scale):
+def texture(name:str,scale:Array):
     texture=pygame.transform.scale(pygame.image.load(os.path.join('Assets',name+'.png')),(scale[0],scale[1]))
     return texture
 

@@ -1,7 +1,7 @@
-from functions import *
-from mainloop import mainloop
+from exctrafunctions import *
+from loops import mainloop
 
-#ejecutable 
+#Excecute main loop
 if __name__ == "__main__":
     elements = start()
     mainloop(elements['frame'],elements['player'],elements['dt'],elements['objects'])

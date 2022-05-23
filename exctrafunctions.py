@@ -1,12 +1,13 @@
-from ctypes import Array
+import array
 import pygame
 from objects_elements import *
 import os
-from time_elements import deltatime
+import time_elements
 
 #Load texture
-def texture(name:str,scale:Array):
+def texture(name:str,scale:array,rotate:int):
     texture=pygame.transform.scale(pygame.image.load(os.path.join('Assets',name+'.png')),(scale[0],scale[1]))
+    texture=pygame.transform.rotate(texture,rotate)
     return texture
 
 #The start function
@@ -16,28 +17,38 @@ def start():
     pygame.display.set_caption("juego")
 
     '''create the game elements'''
-
     #background
     background = Object()
-    background.setvar(0,0,texture('background',[1280,720]),0,0)
+    background.setvar(0,0,texture('background',[1280,720],0),0,0)
+
+    #Pause
+    pause = Object()
+    pause.setvar(0,0,texture('pause',[1280,720],0),0,0)
 
     #player
     player = Subject()
-    player.setvar(640-60,300,texture('player',[120,120]),120,120)
+    player.setvar(580,300,texture('player',[120,120],0),120,120)
+    player.velocity = 200
 
     #bullet
-    bullet = Bullet()
-    bullet.setvar(280,0,texture('player',[720,720]),720,720)
-    bullet.visible()
+    bullets = []
+    for bullet in range(10):
+        bullet = Bullet()
+        bullet.setvar(280,0,texture('player',[120,120],0),120,120)
+        bullet.visible()
+        bullets.append(bullet)
 
     #enemy
-    enemy = Subject()
-    enemy.setvar(640-60,300,texture('player',[120,120]),120,120)
+    enemies = []
+    for enemy in range(1):
+        enemy = Subject()
+        enemy.setvar(580,300,texture('player',[120,120],180),120,120)
+        enemies.append(enemy)
 
     #deltatime
-    dt = deltatime()
+    dt = time_elements.Deltatime()
 
-    #set the pool of objects
-    objects = [background,bullet,enemy]
+    return {'frame':frame,'player':player,'dt':dt,'bullets':bullets,'background':background,'enemies':enemies,'pause':pause}
 
-    return {'frame':frame,'player':player,'dt':dt,'objects':objects}
+def mpstart (array):
+    pass
